@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Takumi Sato</title>
+    <!-- Google Fonts: Noto Sans JP for clean, modern Japanese typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/css2">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables for consistent theming */
+        :root {
+            --primary-color: #2563eb; /* Trustworthy Blue */
+            --accent-color: #1e40af;
+            --text-main: #333333;
+            --text-light: #666666;
+            --bg-body: #ffffff;
+            --bg-light: #f8fafc;
+            --bg-card: #ffffff;
+            --spacing-unit: 8px;
+            --container-width: 1000px;
+        }
+
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-body);
+            line-height: 1.8;
+            letter-spacing: 0.04em;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Layout Utilities */
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-bg {
+            background-color: var(--bg-light);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 32px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50px;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+            background-color: var(--accent-color);
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        .section-title p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* About & Gakuchika Styles (Key Request) */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .strength-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        .strength-title {
+            font-size: 1.5rem;
+            margin-bottom: 24px;
+            color: var(--text-main);
+        }
+
+        .strength-highlight {
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .story-timeline {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .story-item {
+            display: flex;
+            gap: 20px;
+        }
+
+        .story-icon {
+            flex-shrink: 0;
+            width: 48px;
+            height: 48px;
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .story-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .story-content p {
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            transition: transform 0.2s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-color);
+        }
+
+        .skill-name {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .skill-level {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        /* Works Section */
+        .works-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .work-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .work-card:hover {
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .work-thumb {
+            height: 200px;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-weight: 700;
+        }
+
+        .work-info {
+            padding: 24px;
+        }
+
+        .work-title {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .work-desc {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Contact Section */
+        .contact-box {
+            text-align: center;
+            background: white;
+            padding: 60px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--text-main);
+            color: white;
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .story-item {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .contact-box {
+                padding: 40px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">Takumi.S</a>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#works">Works</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Create with Logic,<br>Deliver with Passion.</h1>
+            <p>客観的な分析と地道な努力で、確かな価値を届けるWebデザイナー</p>
+            <a href="#about" class="btn">もっと詳しく</a>
+        </div>
+    </section>
+
+    <!-- About Section (Gakuchika) -->
+    <section id="about" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Me</h2>
+                <p>私について・強み</p>
+            </div>
+
+            <div class="strength-card">
+                <h3 class="strength-title">
+                    私の強みは、客観的分析と地道な努力で<br>
+                    苦手を克服する<span class="strength-highlight">「完遂力」</span>です。
+                </h3>
+                <p style="margin-bottom: 24px;">
+                    中学時代、図書委員として全校放送でのビブリオバトルに参加した経験が私の原点です。当時、私は「人前での極度な緊張」と「声量のなさ」が大きな課題でした。
+                </p>
+
+                <div class="story-timeline">
+                    <!-- Problem / Challenge -->
+                    <div class="story-item">
+                        <div class="story-icon">01</div>
+                        <div class="story-content">
+                            <h4>課題の分析</h4>
+                            <p>予選突破には、緊張と声量のなさを克服し、聴衆に確実に伝わる「プレゼン力」を養う必要がありました。</p>
+                        </div>
+                    </div>
+
+                    <!-- Action -->
+                    <div class="story-item">
+                        <div class="story-icon">02</div>
+                        <div class="story-content">
+                            <h4>1ヶ月間の徹底した対策</h4>
+                            <p><strong>① 客観的な修正：</strong> 家族や友人を相手に毎日発表練習を行い、フィードバックをもとに構成や話し方の修正を計30回以上繰り返しました。<br>
+                            <strong>② 基礎の訓練：</strong> 授業や合唱で意識的に大きな声を出し、人前での発声そのものに慣れる訓練を継続しました。</p>
+                        </div>
+                    </div>
+
+                    <!-- Result -->
+                    <div class="story-item">
+                        <div class="story-icon">03</div>
+                        <div class="story-content">
+                            <h4>結果とこれから</h4>
+                            <p>結果、予選を突破し<span class="strength-highlight">決勝で3位に入賞</span>しました。この経験で得た「伝える力」と、苦手も努力で克服できるという自信を、Webデザインの制作プロセスやクライアントワークにおいても活かしたいと考えています。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section section-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Skills</h2>
+                <p>できること</p>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-name">HTML5 / CSS3</div>
+                    <div class="skill-level">セマンティックなマークアップとレスポンシブ対応</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">JavaScript</div>
+                    <div class="skill-level">動きのあるUI実装、基本的なDOM操作</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Design Tools</div>
+                    <div class="skill-level">Figma / Adobe XD / Photoshop</div>
+                </div>
+                <div class="skill-card">
+                    <div class="skill-name">Communication</div>
+                    <div class="skill-level">傾聴力と提案力を活かした課題解決</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Works Section (Placeholder) -->
+    <section id="works" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Works</h2>
+                <p>制作実績</p>
+            </div>
+            <div class="works-grid">
+                <!-- Work Item 1 -->
+                <div class="work-card">
+                    <div class="work-thumb">Project Image</div>
+                    <div class="work-info">
+                        <h3 class="work-title">架空のカフェサイト</h3>
+                        <p class="work-desc">HTML/CSSで構築。ゆったりとした時間を表現しました。</p>
+                    </div>
+                </div>
+                <!-- Work Item 2 -->
+                <div class="work-card">
+                    <div class="work-thumb">Project Image</div>
+                    <div class="work-info">
+                        <h3 class="work-title">学園祭特設ページ</h3>
+                        <p class="work-desc">チーム制作。JavaScriptを用いたカウントダウン機能を実装。</p>
+                    </div>
+                </div>
+                <!-- Work Item 3 -->
+                <div class="work-card">
+                    <div class="work-thumb">Project Image</div>
+                    <div class="work-info">
+                        <h3 class="work-title">バナーデザイン集</h3>
+                        <p class="work-desc">クリック率を意識した配色のバナートレースとオリジナル制作。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section section-bg">
+        <div class="container">
+            <div class="section-title">
+                <h2>Contact</h2>
+                <p>お問い合わせ</p>
+            </div>
+            <div class="contact-box">
+                <p style="margin-bottom: 24px;">制作のご依頼やご相談は、以下よりお気軽にご連絡ください。</p>
+                <a href="mailto:example@email.com" class="btn">メールを送る</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p class="footer-text">&copy; 2024 Takumi Sato. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
