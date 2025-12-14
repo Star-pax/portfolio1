@@ -38,9 +38,25 @@
             background-color: var(--bg-body);
             line-height: 1.8;
             letter-spacing: 0.04em;
-            /* 背景にうっすら波模様（九十九里イメージ） */
-            background-image: radial-gradient(var(--primary-color) 1px, transparent 1px);
-            background-size: 40px 40px;
+            overflow-x: hidden; /* アニメーション用 */
+        }
+
+        /* 風のアニメーション背景 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='200' height='200' viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 50 Q 50 20 80 50 T 140 50' stroke='%23FACC15' stroke-width='2' fill='none' opacity='0.1'/%3E%3Cpath d='M100 150 Q 130 120 160 150 T 220 150' stroke='%230ea5e9' stroke-width='2' fill='none' opacity='0.1'/%3E%3C/svg%3E");
+            z-index: -1;
+            animation: windFlow 60s linear infinite;
+        }
+
+        @keyframes windFlow {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
 
         a {
@@ -51,6 +67,15 @@
 
         ul {
             list-style: none;
+        }
+
+        /* SVG Icon Utilities */
+        .icon {
+            width: 1.2em;
+            height: 1.2em;
+            fill: currentColor;
+            vertical-align: middle;
+            display: inline-block;
         }
 
         /* Layout Utilities */
@@ -66,8 +91,8 @@
 
         .section-bg {
             background-color: var(--bg-light);
-            border-top: 1px dashed var(--primary-color);
-            border-bottom: 1px dashed var(--primary-color);
+            border-top: 2px dashed var(--primary-color);
+            border-bottom: 2px dashed var(--primary-color);
         }
 
         /* Header */
@@ -97,10 +122,6 @@
             align-items: center;
             gap: 8px;
         }
-        
-        .logo::before {
-            content: '🥜'; /* 落花生アイコン */
-        }
 
         .nav-links {
             display: flex;
@@ -125,15 +146,39 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            /* 菜の花畑と青空のグラデーション */
-            background: linear-gradient(180deg, #e0f2fe 0%, #fef9c3 100%);
             position: relative;
             overflow: hidden;
+        }
+
+        /* ヒーロー画像の背景設定 */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('http://googleusercontent.com/image_generation_content/0');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(255, 255, 255, 0.3), rgba(254, 252, 232, 0.6));
+            z-index: 2;
         }
 
         .hero-content {
             position: relative;
             z-index: 10;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
         }
 
         .hero-content h1 {
@@ -146,9 +191,9 @@
 
         .hero-content p {
             font-size: 1.2rem;
-            color: var(--text-light);
+            color: var(--text-main);
             margin-bottom: 32px;
-            font-weight: 500;
+            font-weight: 700;
         }
 
         .btn {
@@ -158,8 +203,11 @@
             color: var(--text-main);
             border-radius: 50px;
             font-weight: 700;
-            box-shadow: 0 4px 0 var(--accent-color); /* 押せる感のあるボタン */
+            box-shadow: 0 4px 0 var(--accent-color);
             transition: transform 0.1s ease, box-shadow 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn:hover {
@@ -177,17 +225,10 @@
         .section-title h2 {
             font-size: 2rem;
             margin-bottom: 16px;
-            position: relative;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             color: var(--accent-color);
-        }
-
-        .section-title h2::before,
-        .section-title h2::after {
-            content: '🌼';
-            font-size: 1.5rem;
-            margin: 0 10px;
-            vertical-align: middle;
         }
 
         .section-title p {
@@ -202,7 +243,6 @@
             padding: 40px;
             box-shadow: 0 10px 30px rgba(146, 64, 14, 0.1);
             border: 2px solid var(--primary-color);
-            position: relative;
         }
 
         .strength-title {
@@ -228,27 +268,33 @@
         .story-item {
             display: flex;
             gap: 20px;
+            align-items: flex-start;
         }
 
         .story-icon {
             flex-shrink: 0;
-            width: 48px;
-            height: 48px;
+            width: 60px;
+            height: 60px;
             background-color: var(--primary-color);
             color: var(--accent-color);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
             box-shadow: 2px 2px 0 rgba(0,0,0,0.1);
+            padding: 12px;
+        }
+        
+        .story-icon svg {
+            width: 100%;
+            height: 100%;
         }
 
         .story-content h4 {
             font-size: 1.1rem;
             margin-bottom: 8px;
             color: var(--accent-color);
+            font-weight: 700;
         }
 
         .story-content p {
@@ -270,12 +316,20 @@
             text-align: center;
             border: 2px solid #fed7aa;
             transition: transform 0.2s ease;
+            position: relative;
         }
 
         .skill-card:hover {
             transform: translateY(-5px) rotate(1deg);
             border-color: var(--primary-color);
             background-color: #fffbeb;
+        }
+
+        .skill-icon-lg {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 12px;
+            color: var(--secondary-color);
         }
 
         .skill-name {
@@ -308,27 +362,20 @@
         .work-thumb {
             height: 200px;
             background-color: var(--secondary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 700;
-            font-size: 1.2rem;
             position: relative;
             overflow: hidden;
         }
-        
-        /* ワークサムネイルに波のエフェクト */
-        .work-thumb::after {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 0;
+
+        .work-thumb img {
             width: 100%;
-            height: 40px;
-            background: white;
-            border-radius: 50% 50% 0 0;
-            transform: scaleX(1.5);
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .work-card:hover .work-thumb img {
+            transform: scale(1.05);
         }
 
         .work-info {
@@ -348,27 +395,58 @@
             padding: 60px;
             border-radius: 24px;
             border: 4px solid var(--primary-color);
+            background-image: radial-gradient(#fff 50%, #fffbeb 100%);
         }
 
         /* Footer */
         footer {
             background-color: var(--accent-color);
             color: white;
-            padding: 32px 0;
+            padding: 60px 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(146, 64, 14, 0.9), rgba(146, 64, 14, 0.8));
+            z-index: 1;
+        }
+        
+        footer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('http://googleusercontent.com/image_generation_content/0');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: 0;
         }
 
         .footer-text {
             font-size: 0.9rem;
+            position: relative;
+            z-index: 2;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero-content h1 {
                 font-size: 2.2rem;
             }
             .story-item {
                 flex-direction: column;
+                align-items: center;
+                text-align: center;
             }
         }
     </style>
@@ -378,7 +456,17 @@
     <!-- Navigation -->
     <header>
         <div class="container header-inner">
-            <a href="#" class="logo">Takumi.S</a>
+            <a href="#" class="logo">
+                <!-- Peanut Icon SVG -->
+                <svg class="icon" viewBox="0 0 24 24" style="color:var(--accent-color); width:32px; height:32px;">
+                    <path d="M16,4c-2.2,0-4,1.8-4,4c0-2.2-1.8-4-4-4S4,5.8,4,8c0,1.7,1,3.2,2.5,3.8C5,12.4,4,14,4,15.9c0,2.3,1.9,4.1,4.2,4.1
+                    c2.2,0,3.8-1.5,3.8-3.5c0,2,1.6,3.5,3.8,3.5c2.3,0,4.2-1.8,4.2-4.1c0-1.9-1-3.5-2.5-4.1C19,11.2,20,9.7,20,8C20,5.8,18.2,4,16,4z
+                    M8,18c-1.1,0-2-0.9-2-2c0-1.1,0.9-2,2-2s2,0.9,2,2C10,17.1,9.1,18,8,18z M16,18c-1.1,0-2-0.9-2-2c0-1.1,0.9-2,2-2s2,0.9,2,2
+                    C18,17.1,17.1,18,16,18z M16,10c-1.1,0-2-0.9-2-2c0-1.1,0.9-2,2-2s2,0.9,2,2C18,9.1,17.1,10,16,10z M8,10C6.9,10,6,9.1,6,8
+                    c0-1.1,0.9-2,2-2s2,0.9,2,2C10,9.1,9.1,10,8,10z"/>
+                </svg>
+                Takumi.S
+            </a>
             <nav class="nav-links">
                 <a href="#about">About</a>
                 <a href="#skills">Skills</a>
@@ -393,7 +481,10 @@
         <div class="container hero-content">
             <h1>Create with Passion,<br>Like Nanohana.</h1>
             <p>菜の花のような明るさと、落花生のような粘り強さで。<br>千葉から価値を届けるWebデザイナー</p>
-            <a href="#about" class="btn">詳しく見るんだっぺ</a>
+            <a href="#about" class="btn">
+                詳しく見るんだっぺ
+                <svg class="icon" viewBox="0 0 24 24"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+            </a>
         </div>
     </section>
 
@@ -401,7 +492,11 @@
     <section id="about" class="section">
         <div class="container">
             <div class="section-title">
-                <h2>About Me</h2>
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24" style="color:#FACC15"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                    About Me
+                    <svg class="icon" viewBox="0 0 24 24" style="color:#FACC15"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
+                </h2>
                 <p>私について・強み</p>
             </div>
 
@@ -416,30 +511,45 @@
                 </p>
 
                 <div class="story-timeline">
-                    <!-- Problem / Challenge -->
+                    <!-- Problem (Sprout Icon) -->
                     <div class="story-item">
-                        <div class="story-icon">起</div>
+                        <div class="story-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path d="M2,22h20v-2H2V22z M15.56,9.22c-0.12-0.49-1.07-3.79-4.82-3.21C11.9,7.69,12,12.28,12,14c0,2.16-0.37,4.35-1.55,5.92L12,20
+                                c1.74-2.2,2.23-5.23,2.23-7.96C14.23,11.53,15.11,9.97,15.56,9.22z M9.75,13.46c-1.39-2.73-3.6-5.87-1.16-9.17
+                                c-2.09,1.7-2.61,4.42-0.89,7.56C8.24,12.83,8.91,13.25,9.75,13.46z"/>
+                            </svg>
+                        </div>
                         <div class="story-content">
-                            <h4>課題の分析</h4>
+                            <h4>課題の分析（種まき）</h4>
                             <p>「なんとなく」の練習では千葉の風には勝てません。予選突破には、緊張を克服し、聴衆の心に届く「プレゼン力」を養う必要がありました。</p>
                         </div>
                     </div>
 
-                    <!-- Action -->
+                    <!-- Action (Watering/Growth Icon) -->
                     <div class="story-item">
-                        <div class="story-icon">承</div>
+                        <div class="story-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path d="M12,22c4.97,0,9-4.03,9-9c0-4.97-9-13-9-13S3,8.03,3,13C3,17.97,7.03,22,12,22z"/>
+                            </svg>
+                        </div>
                         <div class="story-content">
-                            <h4>1ヶ月間の泥臭い対策</h4>
+                            <h4>1ヶ月間の泥臭い対策（水やり）</h4>
                             <p><strong>① 客観的な修正：</strong> 家族や友人を相手に毎日練習。フィードバックをもとに、構成や話し方の修正を計30回以上繰り返しました。<br>
                             <strong>② 基礎の訓練：</strong> 合唱練習のように腹から声を出し、人前での発声そのものに慣れる訓練を継続しました。</p>
                         </div>
                     </div>
 
-                    <!-- Result -->
+                    <!-- Result (Flower/Fruit Icon) -->
                     <div class="story-item">
-                        <div class="story-icon">結</div>
+                        <div class="story-icon">
+                            <svg viewBox="0 0 24 24" fill="white">
+                                <path d="M12,2C12,2,8,8,8,11c0,2.21,1.79,4,4,4s4-1.79,4-4C16,8,12,2,12,2z M6,7c0,0-4,5-4,8c0,2.21,1.79,4,4,4s4-1.79,4-4
+                                C10,12,6,7,6,7z M18,7c0,0-4,5-4,8c0,2.21,1.79,4,4,4s4-1.79,4-4C22,12,18,7,18,7z M12,22c-1.1,0-2-0.9-2-2h4C14,21.1,13.1,22,12,22z"/>
+                            </svg>
+                        </div>
                         <div class="story-content">
-                            <h4>結果とこれから</h4>
+                            <h4>結果とこれから（開花）</h4>
                             <p>結果、予選を突破し<span class="strength-highlight" style="color:var(--accent-color);">決勝で3位に入賞</span>しました。この経験で得た「伝える力」と、苦手も努力で克服できるという自信は、どんな荒波も乗り越える私の武器です。</p>
                         </div>
                     </div>
@@ -457,18 +567,22 @@
             </div>
             <div class="skills-grid">
                 <div class="skill-card">
+                    <svg class="skill-icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
                     <div class="skill-name">HTML5 / CSS3</div>
                     <div class="skill-level">Webの基礎構築。<br>落花生の殻のように堅牢に。</div>
                 </div>
                 <div class="skill-card">
+                    <svg class="skill-icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zM4 18V6h16v12H4z"/></svg>
                     <div class="skill-name">JavaScript</div>
                     <div class="skill-level">動きのあるUI実装。<br>京葉線のようにスムーズに。</div>
                 </div>
                 <div class="skill-card">
+                    <svg class="skill-icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
                     <div class="skill-name">Design Tools</div>
                     <div class="skill-level">Figma / Adobe XD<br>イメージを形にします。</div>
                 </div>
                 <div class="skill-card">
+                    <svg class="skill-icon-lg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
                     <div class="skill-name">Chiba Spirit</div>
                     <div class="skill-level">最後までやり抜く根性。<br>（と、少しの郷土愛）</div>
                 </div>
@@ -484,28 +598,40 @@
                 <p>制作実績</p>
             </div>
             <div class="works-grid">
-                <!-- Work Item 1 -->
+                <!-- Work Item 1: Windmill Image -->
                 <div class="work-card">
-                    <div class="work-thumb" style="background-color: #fca5a5;">Cafe Site</div>
+                    <div class="work-thumb">
+                        <img src="http://googleusercontent.com/image_generation_content/9" 
+                             alt="Windmill in Chiba" 
+                             onerror="this.src='https://placehold.co/600x400/86efac/ffffff?text=Windmill+Image'">
+                    </div>
+                    <div class="work-info">
+                        <h3 class="work-title">佐倉の風と花</h3>
+                        <p class="work-desc">「風の画像」のリクエストにお応えして。千葉県佐倉市の風車とコスモス畑です。</p>
+                    </div>
+                </div>
+                <!-- Work Item 2 (Sea Side Cafe) -->
+                <div class="work-card">
+                    <div class="work-thumb">
+                        <img src="http://googleusercontent.com/image_generation_content/1" 
+                             alt="Sea Side Cafe" 
+                             onerror="this.src='https://placehold.co/600x400/fca5a5/ffffff?text=Cafe+Site+Image'">
+                    </div>
                     <div class="work-info">
                         <h3 class="work-title">海沿いのカフェサイト</h3>
                         <p class="work-desc">南房総のカフェをイメージ。ゆったりとした時間をHTML/CSSで表現。</p>
                     </div>
                 </div>
-                <!-- Work Item 2 -->
+                <!-- Work Item 3 (Festival) -->
                 <div class="work-card">
-                    <div class="work-thumb" style="background-color: #86efac;">Festival LP</div>
+                    <div class="work-thumb">
+                        <img src="http://googleusercontent.com/image_generation_content/3" 
+                             alt="University Festival" 
+                             onerror="this.src='https://placehold.co/600x400/86efac/ffffff?text=Festival+Image'">
+                    </div>
                     <div class="work-info">
                         <h3 class="work-title">学園祭特設ページ</h3>
                         <p class="work-desc">チーム制作。JSカウントダウン機能付き。賑やかさは柏の街のよう。</p>
-                    </div>
-                </div>
-                <!-- Work Item 3 -->
-                <div class="work-card">
-                    <div class="work-thumb" style="background-color: #93c5fd;">Banner Ads</div>
-                    <div class="work-info">
-                        <h3 class="work-title">特産品バナーデザイン</h3>
-                        <p class="work-desc">クリック率を意識し、梨や醤油の魅力を伝える配色を研究しました。</p>
                     </div>
                 </div>
             </div>
@@ -521,7 +647,10 @@
             </div>
             <div class="contact-box">
                 <p style="margin-bottom: 24px;">制作のご依頼やご相談、お待ちしています。<br>お気軽に連絡してくんなまし。</p>
-                <a href="mailto:example@email.com" class="btn">メールを送る</a>
+                <a href="mailto:example@email.com" class="btn">
+                    メールを送る
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </a>
             </div>
         </div>
     </section>
